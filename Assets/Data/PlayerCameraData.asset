@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2d402f282243846af8fc3647069394, type: 3}
   m_Name: PlayerCameraData
   m_EditorClassIdentifier: 
-  fpsCam: {fileID: 0}
-  thirdpersonCam: {fileID: 0}
-  mouseSensitivity: 100
-  xRotation: 0
+  cameraRotateSensitivity: 60
+  xRotation: -1.6364325
+  playersDefaultRotationY: 180
+  playersDefaultRotationZ: 0
   MaxRotationAngle: 35

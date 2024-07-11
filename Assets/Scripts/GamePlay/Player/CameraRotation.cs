@@ -70,7 +70,7 @@ public class CameraRotation : MonoBehaviour
 
 			Quaternion pitchRotation = Quaternion.Euler(PlayerCameraData.xRotation, PlayerCameraData.playersDefaultRotationY, PlayerCameraData.playersDefaultRotationZ);
 
-			fpsCam.transform.localRotation = pitchRotation;
+			//transform.localRotation = pitchRotation;
 			transform.Rotate(Vector3.up * yaw);
 		}
 		else

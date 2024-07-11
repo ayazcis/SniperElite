@@ -422,6 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fpsCam: {fileID: 6585414871571207056}
   thirdpersonCam: {fileID: 3799023926245106654}
+  Sniper: {fileID: 0}
   PlayerCameraData: {fileID: 11400000, guid: e42d7d6b23d49094296b32deca4efb63, type: 2}
 --- !u!114 &6825312565774846286
 MonoBehaviour:
