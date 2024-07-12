@@ -15,16 +15,16 @@ public class CameraRotation : MonoBehaviour
 	public Transform Sniper;
 	[Space(8)]
 	public PlayerCameraData PlayerCameraData;
-	
+
 
 	private void Awake()
 	{
-		Cursor.lockState = CursorLockMode.Locked;
+		//Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	private void SwitchCameraModeToFps(bool value)
 	{
-		if(value)
+		if (value)
 		{
 			thirdpersonCam.Priority = 10;
 			fpsCam.Priority = 11;
@@ -34,15 +34,15 @@ public class CameraRotation : MonoBehaviour
 			thirdpersonCam.Priority = 11;
 			fpsCam.Priority = 10;
 		}
-		
-		
+
+
 	}
-	
-    void Update()
-    {
+
+	void Update()
+	{
 		if (Input.touchCount > 0 || Input.GetMouseButton(0))
 		{
-			
+
 			SwitchCameraModeToFps(true);
 			RotateCamera(true);
 		}
@@ -53,8 +53,8 @@ public class CameraRotation : MonoBehaviour
 
 
 		}
-       
-        
+
+
 	}
 	void RotateCamera(bool fps)
 	{
@@ -78,7 +78,7 @@ public class CameraRotation : MonoBehaviour
 			float mouseX = Input.GetAxis("Mouse X") * PlayerCameraData.cameraRotateSensitivity * Time.deltaTime;
 			transform.Rotate(Vector3.up * mouseX);
 		}
-		
+
 	}
 	public Vector2 HandleInput()
 	{
@@ -95,5 +95,5 @@ public class CameraRotation : MonoBehaviour
 		return inputDelta;
 	}
 
-	
+
 }
