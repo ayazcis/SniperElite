@@ -44,12 +44,12 @@ public class CameraRotation : MonoBehaviour
 		{
 
 			SwitchCameraModeToFps(true);
-			RotateCamera(true);
+			//RotateCamera(true);
 		}
 		else
 		{
 			SwitchCameraModeToFps(false);
-			RotateCamera(false);
+			//RotateCamera(false);
 
 
 		}
