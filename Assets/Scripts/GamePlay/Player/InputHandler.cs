@@ -17,7 +17,6 @@ public class InputHandler : MonoBehaviour
 
 	private void Update()
 	{
-		Debug.Log("local euler y  "+transform.localEulerAngles.y);
 		if (Input.GetMouseButtonDown(0))
 		{
 

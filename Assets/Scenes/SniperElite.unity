@@ -1386,7 +1386,7 @@ Transform:
   m_GameObject: {fileID: 1665361176}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.27, y: -0.6, z: -46.59}
+  m_LocalPosition: {x: -10.62, y: -0.6, z: -46.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2178,6 +2178,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1294650523}
     m_Modifications:
+    - target: {fileID: 2078792021096961907, guid: 50b0b58aa025eac46960ae267ece8059,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 41a95d2cd1df3444c970f72b7be05e6e, type: 2}
     - target: {fileID: 2078792021105997999, guid: 50b0b58aa025eac46960ae267ece8059,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -2248,7 +2253,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2078792021096961907, guid: 50b0b58aa025eac46960ae267ece8059, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -2256,6 +2262,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4632140431976994930}
+    - targetCorrespondingSourceObject: {fileID: 2078792021106484431, guid: 50b0b58aa025eac46960ae267ece8059,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4632140431976994931}
   m_SourcePrefab: {fileID: 100100000, guid: 50b0b58aa025eac46960ae267ece8059, type: 3}
 --- !u!4 &4632140431976994928 stripped
 Transform:
@@ -2281,6 +2291,28 @@ MonoBehaviour:
   - {fileID: 611738413}
   targetPoint: 0
   speed: 0.02
+  animator: {fileID: 4632140431976994931}
+--- !u!95 &4632140431976994931
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142940125}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e37440baeabcdbc43ac87165c97a104a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6477874475722998540
 GameObject:
   m_ObjectHideFlags: 0

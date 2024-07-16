@@ -1,13 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class EnemyPatrol : MonoBehaviour
 {
     public Transform[] patrolPoints;
     public int targetPoint;
     public float speed=10f;
-
+	public Animator animator;
+	private bool idleEnded = true;
+	float endTime;
 
 	private void Start()
 	{
@@ -18,11 +21,28 @@ public class EnemyPatrol : MonoBehaviour
 	{
 		if (transform.position == patrolPoints[targetPoint].position)
 		{
-			IncreaseTargetpoint();
+
+			IdleToPatrolLogic();
+
 		}
 		transform.position = Vector3.MoveTowards(transform.position, patrolPoints[targetPoint].position, speed);
+		transform.LookAt(patrolPoints[targetPoint].position);
 
 		
+	}
+	void IdleToPatrolLogic()
+	{
+		if (idleEnded)
+		{
+			endTime = Idle();
+		}
+
+		if (Time.time > endTime)
+		{
+			animator.SetBool("Idle", false);
+			IncreaseTargetpoint();
+			idleEnded = true;
+		}
 	}
 
 	void IncreaseTargetpoint()
@@ -35,6 +55,21 @@ public class EnemyPatrol : MonoBehaviour
 		{
 			targetPoint++;
 		}
+	}
+	float Idle()
+	{
+		animator.SetBool("Idle", true);
+		idleEnded = false;
+		float idleTime =SetIdleTime();
+		float startTime = Time.time;
+		float endTime = startTime + idleTime;
+		
+		return endTime;
+	}
+	float SetIdleTime()
+	{
+		float time = Random.Range(2f,5f);
+		return time;
 	}
 
 
