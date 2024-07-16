@@ -7,6 +7,7 @@ public class InputHandler : MonoBehaviour
 	private float mouseStartPosX;
 	private float currentRotationY;
 	private float initialRotationY;
+	float deltaPos;
 
 	private void Start()
 	{
@@ -16,21 +17,30 @@ public class InputHandler : MonoBehaviour
 
 	private void Update()
 	{
+		Debug.Log("local euler y  "+transform.localEulerAngles.y);
 		if (Input.GetMouseButtonDown(0))
 		{
+
 			mouseStartPosX = Input.mousePosition.x;
+
 		}
 		if (Input.GetMouseButton(0))
 		{
-			float deltaPos = Input.mousePosition.x - mouseStartPosX;
+			deltaPos = Input.mousePosition.x - mouseStartPosX;
 			currentRotationY -= deltaPos;
 
-			// Ýlk rotasyondan max 35 derece saða sola dönmesini saðlamak için clamp
+
 			currentRotationY = Mathf.Clamp(currentRotationY, initialRotationY - 35, initialRotationY + 35);
 
 			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -currentRotationY, transform.localEulerAngles.z);
 
 			mouseStartPosX = Input.mousePosition.x;
+		}
+		if (Input.GetMouseButtonUp(0))
+		{
+			initialRotationY = currentRotationY;
+			Debug.Log("deðiþti y  " + transform.localEulerAngles.y);
+
 		}
 	}
 }
