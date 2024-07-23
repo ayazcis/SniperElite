@@ -7,6 +7,7 @@ public class InputHandler : MonoBehaviour
 	private float mouseStartPosX;
 	private float currentRotationY;
 	private float initialRotationY;
+	public float rotationSpeed = 0.1f;
 	float deltaPos;
 
 	private void Start()
@@ -25,7 +26,7 @@ public class InputHandler : MonoBehaviour
 		}
 		if (Input.GetMouseButton(0))
 		{
-			deltaPos = Input.mousePosition.x - mouseStartPosX;
+			deltaPos = (Input.mousePosition.x - mouseStartPosX) * rotationSpeed;
 			currentRotationY -= deltaPos;
 
 
