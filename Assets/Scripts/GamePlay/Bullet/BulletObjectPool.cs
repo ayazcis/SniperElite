@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BulletObjectPool : MonoBehaviour
 {
-    Queue<GameObject> bulletQueue = new Queue<GameObject>();
+    private Queue<GameObject> _bulletQueue = new Queue<GameObject>();
+
     public GameObject bulletPrefab;
-    public int maxBulletCount = 10;
+    public Transform bulletSpawnReferancePoint;
+
+	public int maxBulletCount = 10;
 
 
 
@@ -16,22 +19,24 @@ public class BulletObjectPool : MonoBehaviour
     {
         for (int i = 0; i < maxBulletCount; i++)
         {
-            GameObject gameObject = Instantiate(bulletPrefab);
-            gameObject.SetActive(false);
-            bulletQueue.Enqueue(gameObject);
+            GameObject bullet = Instantiate(bulletPrefab);
+
+            bullet.SetActive(false);
+            _bulletQueue.Enqueue(bullet);
         }
     }
 
     public GameObject SpawnBulletFromPool(Vector3 position, Vector3 PlayerRotation)
     {
-        GameObject gameObject = bulletQueue.Dequeue();
+		GameObject bullet = _bulletQueue.Dequeue();
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+        bulletScript.Call(bulletSpawnReferancePoint.transform.forward);
+		bullet.transform.position = position;
+		bullet.transform.eulerAngles = new Vector3(-90, PlayerRotation.y, PlayerRotation.z);
+		bullet.SetActive(true);
 
-		gameObject.transform.position = position;
-        gameObject.transform.eulerAngles = new Vector3( -90,PlayerRotation.y,PlayerRotation.z );
-		gameObject.SetActive(true);
-        
-        bulletQueue.Enqueue(gameObject);
+		_bulletQueue.Enqueue(gameObject);
 
-        return gameObject;
-    }
+		return bullet;
+	}
 }

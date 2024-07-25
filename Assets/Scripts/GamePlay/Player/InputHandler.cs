@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class InputHandler : MonoBehaviour
 {
-	private float mouseStartPosX;
-	private float currentRotationY;
-	private float initialRotationY;
+	public Transform fpsFollow;
+
+	private float _mouseStartPosX;
+	private float _mouseStartPosY;
+	private float _currentRotationY;
+	private float _initialRotationY;
+	private float _initialRotationX;
+	private float _currentRotationX;
+
 	public float rotationSpeed = 0.1f;
-	float deltaPos;
+
+	private float _deltaPosVertical;
+	private float _deltaPosHorizontal;
 
 	private void Start()
 	{
-		initialRotationY = transform.localEulerAngles.y;
-		currentRotationY = initialRotationY;
+		_initialRotationY = transform.localEulerAngles.y;
+		_currentRotationY = _initialRotationY;
+		_initialRotationX = fpsFollow.localEulerAngles.x;
+		_currentRotationX = _initialRotationX;
 	}
 
 	private void Update()
@@ -21,25 +31,32 @@ public class InputHandler : MonoBehaviour
 		if (Input.GetMouseButtonDown(0))
 		{
 
-			mouseStartPosX = Input.mousePosition.x;
+			_mouseStartPosX = Input.mousePosition.x;
+			_mouseStartPosY = Input.mousePosition.y;
 
 		}
 		if (Input.GetMouseButton(0))
 		{
-			deltaPos = (Input.mousePosition.x - mouseStartPosX) * rotationSpeed;
-			currentRotationY -= deltaPos;
+			_deltaPosVertical = (Input.mousePosition.x - _mouseStartPosX) * rotationSpeed;
+			_deltaPosHorizontal = (Input.mousePosition.y - _mouseStartPosY) * rotationSpeed;
+			_currentRotationY -= _deltaPosVertical;
+			_currentRotationX -= _deltaPosHorizontal;
 
 
-			currentRotationY = Mathf.Clamp(currentRotationY, initialRotationY - 35, initialRotationY + 35);
+			_currentRotationY = Mathf.Clamp(_currentRotationY, _initialRotationY - 35, _initialRotationY + 35);
+			_currentRotationX = Mathf.Clamp(_currentRotationX, _initialRotationX-5, _initialRotationX + 5);
 
-			transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -currentRotationY, transform.localEulerAngles.z);
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.z, -_currentRotationY, transform.localEulerAngles.z);
+			fpsFollow.localEulerAngles= new Vector3( _currentRotationX, fpsFollow.localEulerAngles.y, fpsFollow.localEulerAngles.z);
 
-			mouseStartPosX = Input.mousePosition.x;
+			_mouseStartPosX = Input.mousePosition.x;
+			_mouseStartPosY = Input.mousePosition.y;
 		}
 		if (Input.GetMouseButtonUp(0))
 		{
-			initialRotationY = currentRotationY;
-			Debug.Log("deðiþti y  " + transform.localEulerAngles.y);
+			_initialRotationY = _currentRotationY;
+			
+			_initialRotationX = 0f;
 
 		}
 	}

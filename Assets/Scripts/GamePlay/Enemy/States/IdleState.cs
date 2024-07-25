@@ -4,35 +4,42 @@ using UnityEngine;
 
 public class IdleState : State
 {
-	private string animBoolName;
-	float startTime;
-	EnemyStateManager enemyStateManager;
+	private string _animBoolName;
+	private float _startTime;
 
-	public IdleState(string animBoolName, EnemyStateManager enemyStateManager) : base(animBoolName, enemyStateManager)
+	private EnemyStateManager _enemyStateManager;
+	private EnemyHealth _enemyHealth;
+
+	public IdleState(string animBoolName, EnemyStateManager enemyStateManager, EnemyHealth enemyHealth) : base(animBoolName, enemyStateManager, enemyHealth)
 	{
-		this.animBoolName = animBoolName;
-		this.enemyStateManager = enemyStateManager;
+		_animBoolName = animBoolName;
+		_startTime = Time.time;
+		_enemyStateManager = enemyStateManager;
+		_enemyHealth = enemyHealth;
 	}
 
 	public override void EnterState()
 	{
-		enemyStateManager.animator.SetBool(animBoolName,true);
-		startTime = Time.time;
+		_enemyStateManager.animator.SetBool(_animBoolName,true);
+		_startTime = Time.time;
 	
 	}
 
 	public override void ExitState()
 	{
-		enemyStateManager.animator.SetBool(animBoolName, false);
+		_enemyStateManager.animator.SetBool(_animBoolName, false);
 	}
 
 	public override void LogicUpdate()
 	{
-		if(Time.time >= startTime+ enemyStateManager.EnemyDataSO.idleTime)
+		if(Time.time >= _startTime+ _enemyStateManager.EnemyDataSO.idleTime)
 		{ 
-			enemyStateManager.ChangeState(enemyStateManager.movingState);
+			_enemyStateManager.ChangeState(_enemyStateManager.movingState);
 		}
-
+		if (_enemyHealth.dead)
+		{
+			_enemyStateManager.ChangeState(_enemyStateManager.deadState);
+		}
 	}
 
 

@@ -13,6 +13,22 @@ public class CameraSwitch : MonoBehaviour
 
 	public Canvas fpsCanvas;
 
+	void Update()
+	{
+		if (Input.touchCount > 0 || Input.GetMouseButton(0))
+		{
+
+			SwitchCameraModeToFps(true);
+		}
+		else
+		{
+			SwitchCameraModeToFps(false);
+
+
+		}
+
+
+	}
 
 	private void SwitchCameraModeToFps(bool value)
 	{
@@ -27,23 +43,6 @@ public class CameraSwitch : MonoBehaviour
 			thirdpersonCam.Priority = 11;
 			fpsCam.Priority = 10;
 			fpsCanvas.enabled = false;
-
-		}
-
-
-	}
-
-	void Update()
-	{
-		if (Input.touchCount > 0 || Input.GetMouseButton(0))
-		{
-
-			SwitchCameraModeToFps(true);
-		}
-		else
-		{
-			SwitchCameraModeToFps(false);
-
 
 		}
 

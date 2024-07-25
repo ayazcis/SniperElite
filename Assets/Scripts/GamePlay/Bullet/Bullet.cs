@@ -4,61 +4,81 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    Rigidbody Rigidbody;
-	float startTime;
-	private GameObject player;
-	public float speed = 1f;
-	private GameObject fpsCamFollow;
-	public float bulletLifeTime= 5f;
+	private Rigidbody _rb;
+	private Vector3 _bulletDirection;
 
-	private void OnEnable()
-	{
-		startTime = Time.time;
-	}
+	private float _startTime;
+	public float bulletHealth = 5f;
+	public float speed = 1f;
+	public float bulletLifeTime= 5f;
 
 
 	private void Awake()
 	{
-		
-		Rigidbody = GetComponent<Rigidbody>();
-		fpsCamFollow = GameObject.FindGameObjectWithTag("fpsFollowCam");
-
+		_rb = GetComponent<Rigidbody>();
+		//_bulletSpawnReferancePoint = GameObject.FindGameObjectWithTag("fpsReferanceTransform");
 	}
-	private void Start()
+	public void Call(Vector3 Direction)
 	{
-		
+		_bulletDirection = Direction;
+		_startTime = Time.time;
 	}
 	void Update()
     {
-		Rigidbody.velocity = fpsCamFollow.transform.forward * speed;
+		Debug.DrawRay(transform.position, _bulletDirection * 55555, Color.red,5555f);
+		Move();
 
 		CheckLifeTimeOfObject();
 
 	}
-
-
-	private void OnCollisionEnter(Collision collision)
+	private void OnEnable() 
 	{
-		Debug.Log("collided ");
-		DeactivateGameObject();
-		if (collision.gameObject.CompareTag("Enemy"))
-		{
-			//damage 
-		}
+		
 	}
 
-	private void CheckLifeTimeOfObject() 
+
+	private void Move()
 	{
-		if(Time.time - startTime > bulletLifeTime)
+		//transform.Translate(_bulletDirection * speed * Time.deltaTime);
+		//transform.position += _bulletSpawnPoint.transform.forward * speed * Time.deltaTime;
+		_rb.velocity = _bulletDirection * speed * Time.deltaTime;
+	}
+
+	// TODO: yapýlacaklar
+	#region bullet deactivate checks
+	private void CheckLifeTimeOfObject()
+	{
+		 
+		if (Time.time - _startTime > bulletLifeTime)
 		{
 			DeactivateGameObject();
 			Debug.Log("time ");
 
 		}
 	}
-
-	private void DeactivateGameObject()
+	private void OnTriggerEnter(Collider other)
 	{
-		gameObject.SetActive(false);
+		Debug.Log("collided "+ other.gameObject.name);
+
+		if (other.gameObject.CompareTag("Enemy"))
+		{
+			BulletCollidedWithEnemy(other.gameObject);
+		}
+	}
+	private void BulletCollidedWithEnemy(GameObject Enemy)
+	{
+		Debug.Log("enemy vuruldu");
+		DeactivateGameObject();
+		DamageEnemy(Enemy);
+	}
+	#endregion
+
+
+	private void DeactivateGameObject() => gameObject.SetActive(false);
+	
+	public void DamageEnemy(GameObject Enemy)
+	{
+		EnemyHealth _enemyHealth = Enemy.GetComponent<EnemyHealth>();
+		_enemyHealth.health -= bulletHealth;
 	}
 }

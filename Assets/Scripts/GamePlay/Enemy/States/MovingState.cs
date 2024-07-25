@@ -6,55 +6,64 @@ using UnityEngine.Rendering.Universal;
 
 public class MovingState : State
 {
-	private string animBoolName;
-	Vector3[] patrolPoints;
-	public int targetPoint=0;
-	EnemyStateManager enemyStateManager;
+	private EnemyHealth _enemyHealth;
+	private EnemyStateManager _enemyStateManager;
+
+	private Vector3[] _patrolPoints;
+
+	private string _animBoolName;
+	public int targetPoint = 0;
+	
 
 
-	public MovingState(string animBoolName, EnemyStateManager enemyStateManager) : base(animBoolName, enemyStateManager)
+
+	public MovingState(string animBoolName, EnemyStateManager enemyStateManager, EnemyHealth enemyHealth) : base(animBoolName, enemyStateManager, enemyHealth)
 	{
-		this.animBoolName = animBoolName;
-		this.enemyStateManager = enemyStateManager;
-		patrolPoints = new Vector3[3];
-		patrolPoints[0] = new Vector3(enemyStateManager.transform.position.x+2f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z+2f); ///deðiþtir
-		patrolPoints[1] = new Vector3(enemyStateManager.transform.position.x - 3f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 3f);
-		patrolPoints[2] = new Vector3(enemyStateManager.transform.position.x + 4f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 12f);
+		_animBoolName = animBoolName;
+		_enemyStateManager = enemyStateManager;
+		_enemyHealth = enemyHealth;
+		_patrolPoints = new Vector3[3];
+		_patrolPoints[0] = new Vector3(enemyStateManager.transform.position.x+2f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z+2f); ///deðiþtir
+		_patrolPoints[1] = new Vector3(enemyStateManager.transform.position.x - 3f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 3f);
+		_patrolPoints[2] = new Vector3(enemyStateManager.transform.position.x + 4f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 12f);
 	}
 
 	public override void EnterState()
 	{
 		Debug.Log(targetPoint);
-		enemyStateManager.animator.SetBool(animBoolName, true);
-		/*patrolPoints[0] = new Vector3(-10.6199999f, -0.600000024f, -46.5900002f); ///deðiþtir
-		patrolPoints[1] = new Vector3(-5.46000004f, -0.600000024f, -34.9199982f);
-		patrolPoints[2] = new Vector3(-2.76999998f, -0.600000024f, -52.7099991f);*/
+		_enemyStateManager.animator.SetBool(_animBoolName, true);
+		
 
 	}
 
 
 	public override void ExitState()
 	{
-		enemyStateManager.animator.SetBool(animBoolName, false);
+		_enemyStateManager.animator.SetBool(_animBoolName, false);
 	}
 
 	public override void LogicUpdate()
 	{
-		if (enemyStateManager.transform.position == patrolPoints[targetPoint])
+		if (_enemyStateManager.transform.position == _patrolPoints[targetPoint])
 		{
 			ChangeTargetPoint();
-			enemyStateManager.ChangeState(enemyStateManager.idleState);
+			_enemyStateManager.ChangeState(_enemyStateManager.idleState);
 
 		}
-		enemyStateManager.transform.position = Vector3.MoveTowards(enemyStateManager.transform.position, patrolPoints[targetPoint], enemyStateManager.EnemyDataSO.moveSpeed* Time.deltaTime);
-		enemyStateManager.transform.LookAt(patrolPoints[targetPoint]);
+		_enemyStateManager.transform.position = Vector3.MoveTowards(_enemyStateManager.transform.position, _patrolPoints[targetPoint], _enemyStateManager.EnemyDataSO.moveSpeed* Time.deltaTime);
+		_enemyStateManager.transform.LookAt(_patrolPoints[targetPoint]);
+
+		if (_enemyHealth.dead)
+		{
+			_enemyStateManager.ChangeState(_enemyStateManager.deadState);
+		}
 	}
 	void ChangeTargetPoint()
 	{
 		int tmp;
 		do
 		{
-			tmp = UnityEngine.Random.Range(0, patrolPoints.Length);
+			tmp = UnityEngine.Random.Range(0, _patrolPoints.Length);
 		} while (tmp == targetPoint);
 		targetPoint = tmp;
 		

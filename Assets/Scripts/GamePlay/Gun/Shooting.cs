@@ -14,14 +14,14 @@ public class Shooting : MonoBehaviour
 	public float force = 30f;
 	public float Magnitude = 0.01f;
 
-	public CinemachineVirtualCamera fpsCam;
+	public CinemachineVirtualCamera fpsCam;  
+	public Transform bulletSpawnPoint;
 
 	void Update()
 	{
 		Debug.DrawRay(fpsCam.transform.position, -transform.forward*100f, new Color(1, 1, 0),100000000f);
 		if (Input.GetMouseButtonUp(0))
 		{
-			
 			Shoot();
 		}
 
@@ -29,31 +29,28 @@ public class Shooting : MonoBehaviour
 	}
 	void Shoot()
 	{
-		BulletObjectPool.SpawnBulletFromPool(fpsCam.transform.position,transform.eulerAngles);
 
+		BulletObjectPool.SpawnBulletFromPool(bulletSpawnPoint.position, transform.eulerAngles);
 
 		Debug.Log("Ateþ edildi: ");
 
-		RaycastHit hit;
-		
+
 		StartCoroutine(cameraShake.Shake(0.1f, Magnitude));
-		//Debug.Log(Physics.Raycast(fpsCam.transform.position, -transform.forward, out hit, range));
-		if (Physics.Raycast(fpsCam.transform.position, -transform.forward , out hit, range))
+		if (Physics.Raycast(fpsCam.transform.position, -transform.forward , out RaycastHit hit, range))
 		{
-			Debug.Log("Vuruldu:  "+hit.transform.name);
+			
 
 
 			
 			if (hit.transform.gameObject.CompareTag("Enemy"))
 			{
-				Debug.Log("Enemy vuruldu  ");
+				
 			}
 			if (hit.rigidbody != null)
 			{
 				hit.rigidbody.AddForce(-hit.normal * force);
 			}
 
-			//object pooling mermi bul state machine  yapýsý
 		}
 
 	}

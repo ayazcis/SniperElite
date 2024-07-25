@@ -10,11 +10,13 @@ public class State
 {
 	string animBoolName;
 	EnemyStateManager enemyStateManager;
+	EnemyHealth EnemyHealth;
 
-	public State(string animBoolName , EnemyStateManager enemyStateManager)
+	public State(string animBoolName , EnemyStateManager enemyStateManager, EnemyHealth enemyHealth)
 	{
 		this.animBoolName = animBoolName;
 		this.enemyStateManager = enemyStateManager;
+		this.EnemyHealth = enemyHealth;
 	}
 
 	public virtual void EnterState()
@@ -23,6 +25,7 @@ public class State
 	}
 	public virtual void LogicUpdate()
 	{
+		
 
 	}
 
