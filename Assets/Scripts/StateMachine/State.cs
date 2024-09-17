@@ -9,14 +9,14 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class State 
 {
 	string animBoolName;
-	EnemyStateManager enemyStateManager;
-	EnemyHealth EnemyHealth;
+	private EnemyStateManager enemyStateManager;
+	private Enemy _enemy;
 
-	public State(string animBoolName , EnemyStateManager enemyStateManager, EnemyHealth enemyHealth)
+	public State(string animBoolName , EnemyStateManager enemyStateManager, Enemy enemy)
 	{
 		this.animBoolName = animBoolName;
 		this.enemyStateManager = enemyStateManager;
-		this.EnemyHealth = enemyHealth;
+		this._enemy = enemy;
 	}
 
 	public virtual void EnterState()

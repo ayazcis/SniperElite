@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class IdleState : State
@@ -8,14 +9,15 @@ public class IdleState : State
 	private float _startTime;
 
 	private EnemyStateManager _enemyStateManager;
-	private EnemyHealth _enemyHealth;
+	private Enemy _enemy;
 
-	public IdleState(string animBoolName, EnemyStateManager enemyStateManager, EnemyHealth enemyHealth) : base(animBoolName, enemyStateManager, enemyHealth)
+
+	public IdleState(string animBoolName, EnemyStateManager enemyStateManager, Enemy enemy) : base(animBoolName, enemyStateManager, enemy)
 	{
 		_animBoolName = animBoolName;
 		_startTime = Time.time;
 		_enemyStateManager = enemyStateManager;
-		_enemyHealth = enemyHealth;
+		_enemy = enemy;
 	}
 
 	public override void EnterState()
@@ -32,11 +34,11 @@ public class IdleState : State
 
 	public override void LogicUpdate()
 	{
-		if(Time.time >= _startTime+ _enemyStateManager.EnemyDataSO.idleTime)
+		if(Time.time >= _startTime+ _enemyStateManager.EnemyDataSO.idleTime && !_enemyStateManager._onSlowMotionTime.m_SlowMotion)
 		{ 
 			_enemyStateManager.ChangeState(_enemyStateManager.movingState);
 		}
-		if (_enemyHealth.dead)
+		if (_enemy.IsDead() && !_enemyStateManager._onSlowMotionTime.m_SlowMotion )
 		{
 			_enemyStateManager.ChangeState(_enemyStateManager.deadState);
 		}

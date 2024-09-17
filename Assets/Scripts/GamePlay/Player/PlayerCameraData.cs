@@ -9,7 +9,7 @@ public class PlayerCameraData : ScriptableObject
 	
 	public float cameraRotateSensitivity = 30f;
 	public float xRotation = 0f;
-	public float playersDefaultRotationY = 180f;
+	public float playersDefaultRotationY = 0f;
 	public float playersDefaultRotationZ = 0f;
 	[Space(8)]
 	[Header("Max Rotation In Y")]

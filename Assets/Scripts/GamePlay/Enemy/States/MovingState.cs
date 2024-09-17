@@ -6,7 +6,7 @@ using UnityEngine.Rendering.Universal;
 
 public class MovingState : State
 {
-	private EnemyHealth _enemyHealth;
+	private Enemy _enemy;
 	private EnemyStateManager _enemyStateManager;
 
 	private Vector3[] _patrolPoints;
@@ -17,20 +17,19 @@ public class MovingState : State
 
 
 
-	public MovingState(string animBoolName, EnemyStateManager enemyStateManager, EnemyHealth enemyHealth) : base(animBoolName, enemyStateManager, enemyHealth)
+	public MovingState(string animBoolName, EnemyStateManager enemyStateManager, Enemy enemy) : base(animBoolName, enemyStateManager, enemy)
 	{
 		_animBoolName = animBoolName;
 		_enemyStateManager = enemyStateManager;
-		_enemyHealth = enemyHealth;
+		_enemy = enemy;
 		_patrolPoints = new Vector3[3];
-		_patrolPoints[0] = new Vector3(enemyStateManager.transform.position.x+2f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z+2f); ///deðiþtir
-		_patrolPoints[1] = new Vector3(enemyStateManager.transform.position.x - 3f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 3f);
-		_patrolPoints[2] = new Vector3(enemyStateManager.transform.position.x + 4f, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - 12f);
+		_patrolPoints[0] = new Vector3(enemyStateManager.transform.position.x+ _enemyStateManager.EnemyDataSO.moveRange, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z);
+		_patrolPoints[1] = new Vector3(enemyStateManager.transform.position.x - _enemyStateManager.EnemyDataSO.moveRange, enemyStateManager.transform.position.y, enemyStateManager.transform.position.z );
+		_patrolPoints[2] = new Vector3(enemyStateManager.transform.position.x , enemyStateManager.transform.position.y, enemyStateManager.transform.position.z - (_enemyStateManager.EnemyDataSO.moveRange * 2));
 	}
 
 	public override void EnterState()
 	{
-		Debug.Log(targetPoint);
 		_enemyStateManager.animator.SetBool(_animBoolName, true);
 		
 
@@ -44,7 +43,7 @@ public class MovingState : State
 
 	public override void LogicUpdate()
 	{
-		if (_enemyStateManager.transform.position == _patrolPoints[targetPoint])
+		if (_enemyStateManager.transform.position == _patrolPoints[targetPoint]  || _enemyStateManager._onSlowMotionTime.m_SlowMotion)
 		{
 			ChangeTargetPoint();
 			_enemyStateManager.ChangeState(_enemyStateManager.idleState);
@@ -53,10 +52,11 @@ public class MovingState : State
 		_enemyStateManager.transform.position = Vector3.MoveTowards(_enemyStateManager.transform.position, _patrolPoints[targetPoint], _enemyStateManager.EnemyDataSO.moveSpeed* Time.deltaTime);
 		_enemyStateManager.transform.LookAt(_patrolPoints[targetPoint]);
 
-		if (_enemyHealth.dead)
+		if (_enemy.IsDead())
 		{
 			_enemyStateManager.ChangeState(_enemyStateManager.deadState);
 		}
+
 	}
 	void ChangeTargetPoint()
 	{

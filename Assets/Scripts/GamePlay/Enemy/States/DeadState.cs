@@ -7,13 +7,15 @@ public class DeadState : State
 	private string _animBoolName;
 
 	private EnemyStateManager _enemyStateManager;
-	private EnemyHealth _enemyHealth;
+	private Enemy _enemy;
+	private CapsuleCollider _capsuleCollider;
 
-	public DeadState(string animBoolName, EnemyStateManager enemyStateManager, EnemyHealth enemyHealth) : base(animBoolName, enemyStateManager, enemyHealth)
+	public DeadState(string animBoolName, EnemyStateManager enemyStateManager, Enemy enemy) : base(animBoolName, enemyStateManager, enemy)
 	{
 		_animBoolName = animBoolName;
 		_enemyStateManager = enemyStateManager;
-		_enemyHealth = enemyHealth;
+		_enemy = enemy;
+		_capsuleCollider = enemyStateManager.GetComponent<CapsuleCollider>();
 	}
 
 	public override void EnterState()
@@ -29,7 +31,11 @@ public class DeadState : State
 
 	public override void LogicUpdate()
 	{
+        if (_enemyStateManager._onSlowMotionTime.m_SlowMotion)
+        {
+			_enemyStateManager.ChangeState(_enemyStateManager.idleState);
+		}
 
-	}
+    }
 
 }

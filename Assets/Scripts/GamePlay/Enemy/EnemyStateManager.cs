@@ -5,7 +5,9 @@ using UnityEngine;
 public class EnemyStateManager : MonoBehaviour
 {
 	private EnemyStateManager _enemyStateManager;
-	private EnemyHealth _enemyHealth;
+	private Enemy _enemy;
+
+	public OnSlowMotionTime _onSlowMotionTime;
 
 	public State currentState;
 
@@ -19,12 +21,13 @@ public class EnemyStateManager : MonoBehaviour
 
 	private void Start()
 	{
+		_onSlowMotionTime = GameObject.FindGameObjectWithTag("OnSlowMotion").GetComponent<OnSlowMotionTime>();
 		_enemyStateManager = GetComponent<EnemyStateManager>();
-		_enemyHealth = GetComponent<EnemyHealth>();
+		_enemy = GetComponent<Enemy>();
 
-		idleState = new IdleState("Idle", _enemyStateManager,_enemyHealth);
-		movingState = new MovingState("Moving", _enemyStateManager,_enemyHealth);
-		deadState = new DeadState("Dead", _enemyStateManager,_enemyHealth);
+		idleState = new IdleState("Idle", _enemyStateManager,_enemy);
+		movingState = new MovingState("Moving", _enemyStateManager,_enemy);
+		deadState = new DeadState("Dead", _enemyStateManager,_enemy);
 
 		currentState = idleState;
 		currentState.EnterState();

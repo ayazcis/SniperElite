@@ -8,18 +8,16 @@ public class BulletObjectPool : MonoBehaviour
 
     public GameObject bulletPrefab;
     public Transform bulletSpawnReferancePoint;
+    public Transform bulletParent;
 
-	public int maxBulletCount = 10;
-
-
-
+	public int maxBulletCount = 50;
 
 
     void Start()
     {
         for (int i = 0; i < maxBulletCount; i++)
         {
-            GameObject bullet = Instantiate(bulletPrefab);
+            GameObject bullet = Instantiate(bulletPrefab,bulletParent);
 
             bullet.SetActive(false);
             _bulletQueue.Enqueue(bullet);
@@ -32,8 +30,8 @@ public class BulletObjectPool : MonoBehaviour
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         bulletScript.Call(bulletSpawnReferancePoint.transform.forward);
 		bullet.transform.position = position;
-		bullet.transform.eulerAngles = new Vector3(-90, PlayerRotation.y, PlayerRotation.z);
-		bullet.SetActive(true);
+		bullet.transform.eulerAngles = new Vector3(-90, PlayerRotation.y , PlayerRotation.z - 180f);
+		
 
 		_bulletQueue.Enqueue(gameObject);
 

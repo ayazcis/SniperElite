@@ -17,10 +17,13 @@ public class InputHandler : MonoBehaviour
 
 	private float _deltaPosVertical;
 	private float _deltaPosHorizontal;
-
 	private void Start()
 	{
-		_initialRotationY = transform.localEulerAngles.y;
+		InitializeCurrentRotations();
+	}
+	public void InitializeCurrentRotations()
+	{
+		_initialRotationY = -transform.localEulerAngles.y;
 		_currentRotationY = _initialRotationY;
 		_initialRotationX = fpsFollow.localEulerAngles.x;
 		_currentRotationX = _initialRotationX;
@@ -43,10 +46,10 @@ public class InputHandler : MonoBehaviour
 			_currentRotationX -= _deltaPosHorizontal;
 
 
-			_currentRotationY = Mathf.Clamp(_currentRotationY, _initialRotationY - 35, _initialRotationY + 35);
-			_currentRotationX = Mathf.Clamp(_currentRotationX, _initialRotationX-5, _initialRotationX + 5);
+			_currentRotationY = Mathf.Clamp(_currentRotationY, _initialRotationY - 40, _initialRotationY + 40);
+			_currentRotationX = Mathf.Clamp(_currentRotationX, _initialRotationX-15, _initialRotationX + 15);
 
-			transform.localEulerAngles = new Vector3(transform.localEulerAngles.z, -_currentRotationY, transform.localEulerAngles.z);
+			transform.localEulerAngles = new Vector3(transform.localEulerAngles.z,- _currentRotationY, transform.localEulerAngles.z);
 			fpsFollow.localEulerAngles= new Vector3( _currentRotationX, fpsFollow.localEulerAngles.y, fpsFollow.localEulerAngles.z);
 
 			_mouseStartPosX = Input.mousePosition.x;

@@ -11,6 +11,8 @@ public class CameraSwitch : MonoBehaviour
 	public CinemachineVirtualCamera fpsCam;
 	public CinemachineVirtualCamera thirdpersonCam;
 
+	public bool fps;
+
 	public Canvas fpsCanvas;
 
 	void Update()
@@ -34,12 +36,14 @@ public class CameraSwitch : MonoBehaviour
 	{
 		if (value)
 		{
+			fps= true;
 			thirdpersonCam.Priority = 10;
 			fpsCam.Priority = 11;
 			fpsCanvas.enabled = true;
 		}
 		else
 		{
+			fps = false;
 			thirdpersonCam.Priority = 11;
 			fpsCam.Priority = 10;
 			fpsCanvas.enabled = false;

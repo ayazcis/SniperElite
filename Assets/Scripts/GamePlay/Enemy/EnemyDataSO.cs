@@ -8,5 +8,6 @@ public class EnemyDataSO : ScriptableObject
 	public float moveSpeed = 5f;
 	public float detectDistance = 5f;
 	public float attackDistance = 3f;
+	public float moveRange = 1f;
 
 }
