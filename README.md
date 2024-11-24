@@ -1,2 +1,3 @@
 # SniperElite
-3D fps game
+Mobile 3D fps game
+(Joygame internship game)
